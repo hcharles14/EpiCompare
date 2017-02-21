@@ -1,7 +1,7 @@
 # EpiCompare
-README file created by Yu He on 02/21/2017.
-Please contact yu.he@wustl.edu with questions or for clarifications.
-This file is part of EpiCompare. EpiCompare is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option any later version.
+README file is created by Yu He on 02/21/2017.Please contact yu.he@wustl.edu with questions or for clarifications.
+
+This file is part of EpiCompare. EpiCompare is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
 
 #Availability
