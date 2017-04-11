@@ -1,74 +1,74 @@
-#global variables
-H3K27ac_rpkm_path='coordinates/H3K27ac_rpkm_coord'
-#fixed sample for ctm
+#fixed global variables for ctm analysis
+H3K27ac_rpkm_path='coordinates/H3K27ac_rpkm_coord' #path to H3K27ac rpkm data 
+#list of tissues and samples that have H3K27ac data
 tissue98=c('BLOOD_PrimaryCulture', 'BONE_PrimaryCulture', 'BRAIN_PrimaryCulture', 'BREAST_PrimaryCulture', 'ESC_PrimaryCulture', 'ESC_DERIVED_PrimaryCulture', 'IPSC_PrimaryCulture', 'LUNG_PrimaryCulture', 'MUSCLE_PrimaryCulture', 'SKIN_PrimaryCulture', 'STROMAL_CONNECTIVE_PrimaryCulture', 'VASCULAR_PrimaryCulture', 'BLOOD_Adult', 'BRAIN_Adult', 'FAT_Adult', 'GI_COLON_Adult', 'GI_DUODENUM_Adult', 'GI_ESOPHAGUS_Adult', 'GI_INTESTINE_Adult', 'GI_RECTUM_Adult', 'GI_STOMACH_Adult', 'HEART_Adult', 'LIVER_Adult', 'LUNG_Adult', 'MUSCLE_Adult', 'OVARY_Adult', 'PANCREAS_Adult', 'SPLEEN_Adult', 'THYMUS_Adult', 'VASCULAR_Adult', 'ADRENAL_Fetal', 'GI_INTESTINE_Fetal', 'GI_STOMACH_Fetal', 'MUSCLE_Fetal', 'PLACENTA_Fetal', 'THYMUS_Fetal', 'BLOOD_CellLine', 'CERVIX_CellLine', 'LIVER_CellLine', 'LUNG_CellLine')
 sample98=list(c('E116', 'E123'), c('E129'), c('E125'), c('E119'), c('E008', 'E015', 'E014', 'E016', 'E003'), c('E007', 'E013', 'E012', 'E011', 'E004', 'E005', 'E006'), c('E020', 'E019', 'E021', 'E022'), c('E128'), c('E120', 'E121'), c('E055', 'E056', 'E059', 'E061', 'E058', 'E126', 'E127'), c('E026', 'E049'), c('E122'), c('E062', 'E034', 'E045', 'E044', 'E043', 'E039', 'E041', 'E042', 'E040', 'E037', 'E048', 'E038', 'E047', 'E029', 'E050', 'E032', 'E046', 'E124'), c('E071', 'E074', 'E068', 'E069', 'E072', 'E067', 'E073'), c('E063'), c('E076', 'E106', 'E075'), c('E078'), c('E079'), c('E109'), c('E103', 'E101', 'E102'), c('E111', 'E094'), c('E104', 'E095', 'E105'), c('E066'), c('E096'), c('E100', 'E108'), c('E097'), c('E087', 'E098'), c('E113'), c('E112'), c('E065'), c('E080'), c('E085', 'E084'), c('E092'), c('E089', 'E090'), c('E099', 'E091'), c('E093'), c('E115'), c('E117'), c('E118'), c('E017', 'E114'))
 sample_list98=unlist(sample98)
+#fixed tissue for ctm analysis
 select_tissue=c('BRAIN_Adult','BLOOD_Adult','HEART_Adult','GI_INTESTINE_Adult','ESC_PrimaryCulture')
+#list of all 127 samples from Roadmap
 sample_list127=c("E001","E002","E003","E004","E005","E006" ,"E007","E008","E009","E010","E011","E012","E013","E014","E015" ,"E016","E017","E018","E019","E020","E021","E022","E023","E024" ,"E025","E026","E027","E028","E029","E030","E031","E032","E033" ,"E034","E035","E036","E037","E038","E039","E040","E041","E042" ,"E043","E044","E045","E046","E047","E048","E049","E050","E051" ,"E052","E053","E054","E055","E056","E057","E058","E059","E061" ,"E062","E063","E065","E066","E067","E068","E069","E070","E071" ,"E072","E073","E074","E075","E076","E077","E078","E079","E080" ,"E081","E082","E083","E084","E085","E086","E087","E088","E089" ,"E090","E091","E092","E093","E094","E095","E096","E097","E098","E099","E100","E101","E102","E103","E104","E105","E106","E107","E108","E109","E110","E111","E112","E113","E114","E115","E116" ,"E117","E118","E119","E120","E121","E122","E123","E124","E125" ,"E126","E127","E128","E129")
 
 
 #get roadmap data 
-get_roadmap_data=function(feature,HMM_model,chrom_state){
-
-        if (feature=='ChromHMM'){
-            if (HMM_model=='15 model'){
-                load('Rdata/ChromHMM15_logic.Rdata')
-                if (chrom_state=="enhancer"){
-                    sample_logic=enhancer_logic_15
-                }else{
-                    sample_logic=promoter_logic_15 
-                }
+get_roadmap_data=function(feature){
+    if (feature=='ChromHMM'){
+        if (HMM_model=='15 model'){
+            load('Rdata/ChromHMM15_logic.Rdata')
+            if (chrom_state=="enhancer"){
+                sample_logic=enhancer_logic_15
             }else{
-                load('Rdata/ChromHMM18_logic.Rdata')
-                if (chrom_state=="enhancer"){
-                    sample_logic=enhancer_logic_18 
-                }else{
-                    sample_logic=promoter_logic_18 
-                }
+                sample_logic=promoter_logic_15 
             }
-        }else if (feature=='H3K27ac'){
-            load('Rdata/H3K27ac_logic.Rdata')
-            sample_logic=H3K27ac_logic
-        }else if (feature=='H3K4me1'){
-            load('Rdata/H3K4me1_logic.Rdata')
-            sample_logic=H3K4me1_logic
-        }else if (feature=='H3K4me3'){
-            load('Rdata/H3K4me3_logic.Rdata')
-            sample_logic=H3K4me3_logic
-        }else {
-            load('Rdata/H3K27me3_logic.Rdata')
-            sample_logic=H3K27me3_logic
+        }else{
+            load('Rdata/ChromHMM18_logic.Rdata')
+            if (chrom_state=="enhancer"){
+                sample_logic=enhancer_logic_18 
+            }else{
+                sample_logic=promoter_logic_18 
+            }
         }
-        return(sample_logic)  
+    }else if (feature=='H3K27ac'){
+        load('Rdata/H3K27ac_logic.Rdata')
+        sample_logic=H3K27ac_logic
+    }else if (feature=='H3K4me1'){
+        load('Rdata/H3K4me1_logic.Rdata')
+        sample_logic=H3K4me1_logic
+    }else if (feature=='H3K4me3'){
+        load('Rdata/H3K4me3_logic.Rdata')
+        sample_logic=H3K4me3_logic
+    }else {
+        load('Rdata/H3K27me3_logic.Rdata')
+        sample_logic=H3K27me3_logic
+    }
+    return(sample_logic)  
 }
 
 
 #get coordinate file for processing user data
-get_coord=function(feature,HMM_model,chrom_state){
-
-        if (feature=='ChromHMM'){
-          if (HMM_model=='15 model'){
-              if (chrom_state=="enhancer"){
+get_coord=function(feature){
+    if (feature=='ChromHMM'){
+        if (HMM_model=='15 model'){
+            if (chrom_state=="enhancer"){
                 coord='coordinates/enhancer_logic_15_coord'
-              }else{
-              coord='coordinates/promoter_logic_15_coord' 
-              }
-          }else{
-              if (chrom_state=="enhancer"){
+            }else{
+                coord='coordinates/promoter_logic_15_coord' 
+            }
+        }else{
+            if (chrom_state=="enhancer"){
                 coord='coordinates/enhancer_logic_18_coord'   
-              }else{
-              coord='coordinates/promoter_logic_18_coord' 
-              }
-          }
+            }else{
+                coord='coordinates/promoter_logic_18_coord' 
+            }
+        }
         }else if (feature=='H3K27ac'){
-          coord='coordinates/H3K27ac_logic_coord'
+            coord='coordinates/H3K27ac_logic_coord'
         }else if (feature=='H3K4me1'){
-          coord='coordinates/H3K4me1_logic_coord'
+            coord='coordinates/H3K4me1_logic_coord'
         }else if (feature=='H3K4me3'){
-          coord='coordinates/H3K4me3_logic_coord'
+            coord='coordinates/H3K4me3_logic_coord'
         }else {
-          coord='coordinates/H3K27me3_logic_coord'
+            coord='coordinates/H3K27me3_logic_coord'
         }
         return(coord)  
 }
@@ -101,27 +101,6 @@ process_user_data=function(coord_file,main_path,userdir){
     colnames(temp_data)=file_list
     return(temp_data)
 }
-
-
-# #get the list of samples existing in Roadmap data for selected feature
-# get_sample_list=function(feature,HMM_model,sample_list127,sample_list98){
-
-#             if (feature=='H3K4me1'){
-#                 sample_list=sample_list127
-#             }else if (feature=='H3K4me3'){
-#                 sample_list=sample_list127
-#             }else if (feature=='H3K27me3'){
-#                 sample_list=sample_list127
-#             }else if (feature=='H3K27ac'){
-#                 sample_list=sample_list98
-#             }else{
-#                 if (HMM_model=='15 model'){
-#                   sample_list=sample_list127
-#                 }else{
-#                   sample_list=sample_list98
-#                 }
-#             }    
-# }
 
 
 #enrichment analysis 
@@ -218,17 +197,15 @@ cal_enrichment<-function(target_file,foredata,backdata,main_path){
 }#end of cal_enrichment
 
 
-#analysis of ctm index distribution in different tissues/cells
+#start analysis of ctm index distribution in different tissues/cells
 norm_vec <- function(x) sqrt(sum(x^2))
 spm_vec<-function(x) as.numeric(x/norm_vec(x))
-
 #calcualte spm
 calculate_spm=function(data){
     norm_data=apply(data,1,norm_vec)
     spm_m=data/norm_data
     return(spm_m)
 }
-
 #calcualte ctm
 calculate_ctm=function(spm_m,sam){
     if (length(sam)==1){
@@ -237,7 +214,6 @@ calculate_ctm=function(spm_m,sam){
         return(apply(spm_m[,sam],1,norm_vec))
     }
 }
-
 #calcualte ctm index distribution
 hist_density<-function(data,numNo){
     a=hist(data,breaks=seq(0, 1, 0.05),right=FALSE,plot=FALSE)
@@ -245,7 +221,6 @@ hist_density<-function(data,numNo){
     b[1]=b[1]+numNo
     return(round(b/sum(b),4))
 }
-
 #plot ctm index distribution
 plot_multiple_lines=function(data,numNo,figure_name){
     numCol=dim(data)[2]
@@ -294,7 +269,6 @@ plot_multiple_lines=function(data,numNo,figure_name){
     #done
     return(outdata)
 }
-    
 #calculate ctm for several tissues
 cal_ctm_several_tis<-function(data,target_sam,back_sam){
     for (tis in select_tissue){
@@ -336,8 +310,6 @@ cal_ctm_several_tis<-function(data,target_sam,back_sam){
     #fore
     return(comb_ctm)
 }
-
-
 #main function to plot ctm index distribution in different tissues
 intersect_plot<-function(data,target_sam,back_sam,figure_name){
     num_noInter=0
@@ -360,8 +332,7 @@ myfun<-function(x) {
 #get quantile
 cal_qunatile=function(x,per){
     return(quantile(x,c(per)))
-}
-            
+}           
 #function to get cluster from cluster density 
 get_cluster=function(foreSam,backSam,density_mat,clusterQuantile,clusterCutoff){ #the final column of density_mat is cluster number 
     #for_den
@@ -384,7 +355,6 @@ get_cluster=function(foreSam,backSam,density_mat,clusterQuantile,clusterCutoff){
     cluster_Name=density_mat[for_den>=back_den & for_den>=clusterCutoff,dim(density_mat)[2]]
     return(cluster_Name)
 }
-
 #function to get regions for specific clusters 
 get_regions=function(column_cluster,cluster_Name){ # column_cluster is the cluster name for all data
     #get final data
@@ -400,7 +370,6 @@ get_regions=function(column_cluster,cluster_Name){ # column_cluster is the clust
     }
     return(logic)
 }
-
 #calculate feature density
 cal_density=function(data,numClu){
     for (num in 1:numClu){
@@ -420,7 +389,6 @@ cal_density=function(data,numClu){
 
 #identify regions 
 identify_regions=function(){
-
 #preprocess data for frequency cutoff and Fisher's exact test method and load clustering data for k-means clustering method
 #calcualte foreground sample and background sample sum
 len_fore=length(foreData)
@@ -444,13 +412,13 @@ len_back=length(backData)
                 if (HMM_model=='15 model'){                   
                     if (chrom_state=="enhancer"){
                         load('Rdata/enh15_cluster_data.Rdata')
-                        if (cluster_num=='c140'){
+                        if (cluster_num==140){
                             cluster_last=enh15_140cluster_lastColumn
                             cluster_density=enh15_140cluster_density                    
-                        }else if(cluster_num=='c90'){
+                        }else if(cluster_num==90){
                             cluster_last=enh15_90cluster_lastColumn
                             cluster_density=enh15_90cluster_density
-                        }else if(cluster_num=='c200'){
+                        }else if(cluster_num==200){
                             cluster_last=enh15_200cluster_lastColumn
                             cluster_density=enh15_200cluster_density
                         }else {
@@ -459,13 +427,13 @@ len_back=length(backData)
                         }
                     }else{
                         load('Rdata/tss15_cluster_data.Rdata')
-                        if (cluster_num=='c140'){
+                        if (cluster_num==140){
                             cluster_last=tss15_140cluster_lastColumn
                             cluster_density=tss15_140cluster_density                    
-                        }else if(cluster_num=='c90'){
+                        }else if(cluster_num==90){
                             cluster_last=tss15_90cluster_lastColumn
                             cluster_density=tss15_90cluster_density
-                        }else if(cluster_num=='c200'){
+                        }else if(cluster_num==200){
                             cluster_last=tss15_200cluster_lastColumn
                             cluster_density=tss15_200cluster_density
                         }else {
@@ -477,13 +445,13 @@ len_back=length(backData)
                 }else{
                     if (chrom_state=="enhancer"){
                         load('Rdata/enh18_cluster_data.Rdata')                      
-                        if (cluster_num=='c140'){
+                        if (cluster_num==140){
                             cluster_last=enh18_140cluster_lastColumn
                             cluster_density=enh18_140cluster_density                    
-                        }else if(cluster_num=='c90'){
+                        }else if(cluster_num==90){
                             cluster_last=enh18_90cluster_lastColumn
                             cluster_density=enh18_90cluster_density
-                        }else if(cluster_num=='c200'){
+                        }else if(cluster_num==200){
                             cluster_last=enh18_200cluster_lastColumn
                             cluster_density=enh18_200cluster_density
                         }else {
@@ -493,13 +461,13 @@ len_back=length(backData)
 
                     }else{
                         load('Rdata/tss18_cluster_data.Rdata') 
-                        if (cluster_num=='c140'){
+                        if (cluster_num==140){
                             cluster_last=tss18_140cluster_lastColumn
                             cluster_density=tss18_140cluster_density                    
-                        }else if(cluster_num=='c90'){
+                        }else if(cluster_num==90){
                             cluster_last=tss18_90cluster_lastColumn
                             cluster_density=tss18_90cluster_density
-                        }else if(cluster_num=='c200'){
+                        }else if(cluster_num==200){
                             cluster_last=tss18_200cluster_lastColumn
                             cluster_density=tss18_200cluster_density
                         }else {
@@ -511,13 +479,13 @@ len_back=length(backData)
 
             }else if (feature=='H3K27ac'){
                 load('Rdata/H3K27ac_cluster_data.Rdata')
-                if (cluster_num=='c140'){
+                if (cluster_num==140){
                     cluster_last=H3K27ac_140cluster_lastColumn
                     cluster_density=H3K27ac_140cluster_density                  
-                }else if(cluster_num=='c90'){
+                }else if(cluster_num==90){
                     cluster_last=H3K27ac_90cluster_lastColumn
                     cluster_density=H3K27ac_90cluster_density
-                }else if(cluster_num=='c200'){
+                }else if(cluster_num==200){
                     cluster_last=H3K27ac_200cluster_lastColumn
                     cluster_density=H3K27ac_200cluster_density
                 }else {
@@ -527,13 +495,13 @@ len_back=length(backData)
 
             }else if (feature=='H3K4me1'){
                 load('Rdata/H3K4me1_cluster_data.Rdata')
-                if (cluster_num=='c140'){
+                if (cluster_num==140){
                     cluster_last=H3K4me1_140cluster_lastColumn
                     cluster_density=H3K4me1_140cluster_density                  
-                }else if(cluster_num=='c90'){
+                }else if(cluster_num==90){
                     cluster_last=H3K4me1_90cluster_lastColumn
                     cluster_density=H3K4me1_90cluster_density
-                }else if(cluster_num=='c200'){
+                }else if(cluster_num==200){
                     cluster_last=H3K4me1_200cluster_lastColumn
                     cluster_density=H3K4me1_200cluster_density
                 }else {
@@ -543,13 +511,13 @@ len_back=length(backData)
 
             }else if (feature=='H3K4me3'){
                 load('Rdata/H3K4me3_cluster_data.Rdata')
-                if (cluster_num=='c140'){
+                if (cluster_num==140){
                     cluster_last=H3K4me3_140cluster_lastColumn
                     cluster_density=H3K4me3_140cluster_density                  
-                }else if(cluster_num=='c90'){
+                }else if(cluster_num==90){
                     cluster_last=H3K4me3_90cluster_lastColumn
                     cluster_density=H3K4me3_90cluster_density
-                }else if(cluster_num=='c200'){
+                }else if(cluster_num==200){
                     cluster_last=H3K4me3_200cluster_lastColumn
                     cluster_density=H3K4me3_200cluster_density
                 }else {
@@ -559,13 +527,13 @@ len_back=length(backData)
 
             }else{
                 load('Rdata/H3K27me3_cluster_data.Rdata')
-                if (cluster_num=='c140'){
+                if (cluster_num==140){
                     cluster_last=H3K27me3_140cluster_lastColumn
                     cluster_density=H3K27me3_140cluster_density                 
-                }else if(cluster_num=='c90'){
+                }else if(cluster_num==90){
                     cluster_last=H3K27me3_90cluster_lastColumn
                     cluster_density=H3K27me3_90cluster_density
-                }else if(cluster_num=='c200'){
+                }else if(cluster_num==200){
                     cluster_last=H3K27me3_200cluster_lastColumn
                     cluster_density=H3K27me3_200cluster_density
                 }else {
@@ -621,6 +589,5 @@ len_back=length(backData)
 
         } #end of all methods
         return(final_data)
-
 }
 
