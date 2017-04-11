@@ -6,6 +6,7 @@ Please contact yu.he@wustl.edu with questions or for clarifications.
 
 ###############  Part 0: Setup ####################
 
+
 This folder "Command_Line_EpiCompare" contains the code for running command-line EpiCompare in the server. Download the code, which will create Command_Line_EpiCompare folder under EpiCompare folder.
 
 
