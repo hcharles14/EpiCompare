@@ -389,11 +389,11 @@ cal_density=function(data,numClu){
 
 #identify regions 
 identify_regions=function(){
-#preprocess data for frequency cutoff and Fisher's exact test method and load clustering data for k-means clustering method
-#calcualte foreground sample and background sample sum
-len_fore=length(foreData)
-len_back=length(backData)
-       if (method=="cutoff" |method=="fisher"){ #cutoff or fisher
+        #preprocess data for frequency cutoff and Fisher's exact test method and load clustering data for k-means clustering method
+        #calcualte foreground sample and background sample sum
+        len_fore=length(foreData)
+        len_back=length(backData)
+        if (method=="cutoff" |method=="fisher"){ #cutoff or fisher
             if (len_fore==1){
                 foreSum=sample_logic[,foreData]
             }else{
@@ -411,7 +411,7 @@ len_back=length(backData)
             if (feature=='ChromHMM'){
                 if (HMM_model=='15 model'){                   
                     if (chrom_state=="enhancer"){
-                        load('Rdata/enh15_cluster_data.Rdata')
+                        load(paste(main_path,'/Rdata/enh15_cluster_data.Rdata',sep=''))
                         if (cluster_num==140){
                             cluster_last=enh15_140cluster_lastColumn
                             cluster_density=enh15_140cluster_density                    
@@ -426,7 +426,7 @@ len_back=length(backData)
                             cluster_density=enh15_250cluster_density
                         }
                     }else{
-                        load('Rdata/tss15_cluster_data.Rdata')
+                        load(paste(main_path,'/Rdata/tss15_cluster_data.Rdata',sep=''))
                         if (cluster_num==140){
                             cluster_last=tss15_140cluster_lastColumn
                             cluster_density=tss15_140cluster_density                    
@@ -444,7 +444,7 @@ len_back=length(backData)
                     
                 }else{
                     if (chrom_state=="enhancer"){
-                        load('Rdata/enh18_cluster_data.Rdata')                      
+                        load(paste(main_path,'/Rdata/enh18_cluster_data.Rdata',sep=''))                    
                         if (cluster_num==140){
                             cluster_last=enh18_140cluster_lastColumn
                             cluster_density=enh18_140cluster_density                    
@@ -460,7 +460,7 @@ len_back=length(backData)
                         }
 
                     }else{
-                        load('Rdata/tss18_cluster_data.Rdata') 
+                        load(paste(main_path,'/Rdata/tss18_cluster_data.Rdata',sep='')) 
                         if (cluster_num==140){
                             cluster_last=tss18_140cluster_lastColumn
                             cluster_density=tss18_140cluster_density                    
@@ -478,7 +478,7 @@ len_back=length(backData)
                 }
 
             }else if (feature=='H3K27ac'){
-                load('Rdata/H3K27ac_cluster_data.Rdata')
+                load(paste(main_path,'/Rdata/H3K27ac_cluster_data.Rdata',sep='')) 
                 if (cluster_num==140){
                     cluster_last=H3K27ac_140cluster_lastColumn
                     cluster_density=H3K27ac_140cluster_density                  
@@ -494,7 +494,7 @@ len_back=length(backData)
                 }
 
             }else if (feature=='H3K4me1'){
-                load('Rdata/H3K4me1_cluster_data.Rdata')
+                load(paste(main_path,'/Rdata/H3K4me1_cluster_data.Rdata',sep='')) 
                 if (cluster_num==140){
                     cluster_last=H3K4me1_140cluster_lastColumn
                     cluster_density=H3K4me1_140cluster_density                  
@@ -510,7 +510,7 @@ len_back=length(backData)
                 }
 
             }else if (feature=='H3K4me3'){
-                load('Rdata/H3K4me3_cluster_data.Rdata')
+                load(paste(main_path,'/Rdata/H3K4me3_cluster_data.Rdata',sep=''))
                 if (cluster_num==140){
                     cluster_last=H3K4me3_140cluster_lastColumn
                     cluster_density=H3K4me3_140cluster_density                  
@@ -526,7 +526,7 @@ len_back=length(backData)
                 }
 
             }else{
-                load('Rdata/H3K27me3_cluster_data.Rdata')
+                load(paste(main_path,'/Rdata/H3K27me3_cluster_data.Rdata',sep=''))
                 if (cluster_num==140){
                     cluster_last=H3K27me3_140cluster_lastColumn
                     cluster_density=H3K27me3_140cluster_density                 

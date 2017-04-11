@@ -86,7 +86,16 @@ clusterQuantile=100 #For a selected cluster, the median of feature densities of 
 clusterCutoff=0.4 #For a selected cluster, the median of feature densities of foreground samples in this cluster are no less than 0.4 (default).
 
 
-d. files: specify users' data folder, output folder to store all processed data, file name for identified regions. All these folders and files should be in Command_Line_EpiCompare folder.
+d. files: specify users' data folder, output folder to store all processed data, file name for identified regions. All these folders and files should be in Command_Line_EpiCompare folder. User's data file should have only three columns (chromosome, start, end) specifying the location of the feature. The coordinates can be merged or not. The name of each file is taken as the sample name. Only frequency cutoff and Fisher's exact test can be used to analyze users' data while k-means clustering method cannot be used.
+
+
+An example for users' data:
+
+chr1	10000	10200
+
+chr1	13000	13600
+
+chr1	15200	17400
 
 
 Example (as shown in run_epicompare.R):  

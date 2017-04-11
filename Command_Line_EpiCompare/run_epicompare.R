@@ -2,8 +2,8 @@
 #select foreground and background samples
 #sample_list127=c("E001","E002","E003","E004","E005","E006" ,"E007","E008","E009","E010","E011","E012","E013","E014","E015" ,"E016","E017","E018","E019","E020","E021","E022","E023","E024" ,"E025","E026","E027","E028","E029","E030","E031","E032","E033" ,"E034","E035","E036","E037","E038","E039","E040","E041","E042" ,"E043","E044","E045","E046","E047","E048","E049","E050","E051" ,"E052","E053","E054","E055","E056","E057","E058","E059","E061" ,"E062","E063","E065","E066","E067","E068","E069","E070","E071" ,"E072","E073","E074","E075","E076","E077","E078","E079","E080" ,"E081","E082","E083","E084","E085","E086","E087","E088","E089" ,"E090","E091","E092","E093","E094","E095","E096","E097","E098","E099","E100","E101","E102","E103","E104","E105","E106","E107","E108","E109","E110","E111","E112","E113","E114","E115","E116" ,"E117","E118","E119","E120","E121","E122","E123","E124","E125" ,"E126","E127","E128","E129")
 #select foreground samples from roadmap samples given in sample_list127 or users' data (The name of uploaded file is the sample name)
-#foreData=c('E071', 'E074', 'E068', 'E069', 'E072', 'E067', 'E073') 
-foreData=c('test11', 'test22', 'test33', 'test44', 'test55','E074')
+foreData=c('E071', 'E074', 'E068', 'E069', 'E072', 'E067', 'E073') 
+#foreData=c('test11', 'test22', 'test33', 'test44', 'test55','E074','E068') #include both Roadmap data and users' data
 #select background samples from roadmap samples given in sample_list127 or users' data (The name of uploaded file is the sample name)
 backData=c("E116" ,"E123" ,"E129" ,"E125" ,"E119" ,"E008" ,"E015" ,"E014" ,"E016" ,"E003","E007" ,"E013" ,"E012" ,"E011" ,"E004" ,"E005" ,"E006" ,"E020" ,"E019" ,"E021","E022" ,"E128" ,"E120" ,"E121" ,"E055" ,"E056" ,"E059" ,"E061" ,"E058" ,"E126","E127" ,"E026" ,"E049" ,"E122" ,"E062" ,"E034" ,"E045" ,"E044" ,"E043" ,"E039","E041" ,"E042" ,"E040" ,"E037" ,"E048" ,"E038" ,"E047" ,"E029" ,"E050" ,"E032","E046" ,"E124" ,"E063" ,"E076" ,"E106" ,"E075" ,"E078" ,"E079" ,"E109" ,"E103","E101" ,"E102" ,"E111" ,"E094" ,"E104" ,"E095" ,"E105" ,"E066" ,"E096" ,"E100","E108" ,"E097" ,"E087" ,"E098" ,"E113" ,"E112" ,"E065" ,"E080" ,"E085" ,"E084","E092" ,"E089" ,"E090" ,"E099" ,"E091" ,"E093" ,"E115" ,"E117" ,"E118" ,"E017","E114")	
 
@@ -27,7 +27,7 @@ clusterQuantile=100 #For a selected cluster, the median of feature densities of 
 clusterCutoff=0.4 #For a selected cluster, the median of feature densities of foreground samples in this cluster are no less than 0.4 (default).
 
 #file parameters
-user_data='True' #whether users use their own data
+user_data='False' #whether users use their own data
 userdir='user_data' #specify the directory of userdata
 outdir='brain_enh'  #specify the directory where intermediate data and final output are saved 
 outfile_name='brain_enhancer_cutoff' #provide file name to save identified regions
@@ -47,16 +47,20 @@ if(method=='fisher' & length(backData)==0){
 library(ggplot2)
 require(data.table)
 source('functions.R')
+cat('start identifying regions given input variables and files','\n')
 
 #get Roadmap data for selected feature
+cat('a. get Roadmap data for selected feature','\n')
 sample_logic=get_roadmap_data(feature)
 
 #get coordinate file for processing user data
+cat('b. get coordinate file for selected feature','\n')
 coord=get_coord(feature)
 main_path=getwd()
 coord_path=file.path(main_path,coord)
 
 #change the current working folder to specified output folder. Check if ourdir exists. If not, create it.
+cat('c. change the current working directory to specified output folder','\n')
 if (file.exists(outdir)){
     setwd(file.path(main_path, outdir))
 } else {
@@ -65,13 +69,15 @@ if (file.exists(outdir)){
 }
 
 #process user's data and combine them with roadmap data
+cat('d. If user_data is True, process user\'s data and combine them with roadmap data','\n')
 if(user_data=='True'){
     user_logic=process_user_data(coord_path,main_path,userdir)
     sample_logic=cbind(sample_logic,user_logic)
-    print(sample_logic[1:2,])
+    #print(sample_logic[1:2,])
 }
 
 #identify regions using selected method
+cat('e. identify regions using selected method','\n')
 final_data=identify_regions()
 
 #check the size of final data
@@ -81,6 +87,7 @@ if(nrow(final_data)==0){
 }
 
 #write final data into file and sort the file
+cat('f. write final data into specified file name and sort the file','\n')
 write.table(final_data, outfile_name, row.names=FALSE,col.names=FALSE,quote=FALSE,sep='\t')
 outfile_sort=paste(outfile_name,'.sort',sep='')
 cmd_sort=paste('sort -k1,1 -k2,2n ',outfile_name,'>',outfile_sort,sep=' ')
@@ -88,11 +95,15 @@ system(cmd_sort)
 
 
 #################Validate identified regions###################
+cat('start validating identified regions','\n')
+
 #plot enrichment for H3K27ac peaks and save the enrichment values into a file
+cat('a.plot enrichment of H3K27ac peaks for identified regions and save the enrichment values into a file','\n')
 enrich_data=cal_enrichment(outfile_sort,foreData,backData,main_path)
 write.table(enrich_data, 'H3K27ac_peaks_enrichment.txt', row.names=FALSE,col.names=TRUE,quote=FALSE,sep='\t')
 
 #plot ctm distribution on H3K27ac
+cat('b.plot ctm distribution on H3K27ac for identified regions and save the enrichment values into a file','\n')
 #filter out samples that do not have H3K27ac data
 fore_sam_k27=c()
 back_sam_k27=c()
