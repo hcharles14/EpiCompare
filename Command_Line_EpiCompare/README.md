@@ -1,5 +1,4 @@
-#Command-line EpiCompare
-
+## Command-line EpiCompare
 ## README file created by Yu He on March 7, 2017
 ## Please contact yu.he@wustl.edu with questions or for clarifications.
 
