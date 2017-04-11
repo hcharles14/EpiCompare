@@ -1,4 +1,4 @@
-# EpiCompare
+# Online EpiCompare
 
 README file is created by Yu He on 02/21/2017. Please contact yu.he@wustl.edu with questions or for clarifications.
 
