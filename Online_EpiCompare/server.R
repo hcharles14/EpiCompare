@@ -1911,6 +1911,7 @@ server<-function(input, output,session) {
         validate(
       		need(length(fore$data) != 0, 'no fore')
     	)
+       	
     	updateTabsetPanel(session, "navBarPageID", selected = "Results")
     	session$sendCustomMessage("ok_submit", list())
     })
@@ -1973,7 +1974,8 @@ server<-function(input, output,session) {
             fileList=fileName
             numFile=length(fileName)
             for (i in c(1:numFile)){
-                fileList[i]=unlist(strsplit(fileName[i],"[.]"))[1]
+                #fileList[i]=unlist(strsplit(fileName[i],"[.]"))[1]
+                fileList[i]=fileName[i]
             }
             
             #process data
@@ -2002,7 +2004,7 @@ server<-function(input, output,session) {
 
             #get file name
             fileName=inFile[,'name']
-            fileList=unlist(strsplit(fileName,"[.]"))[1]
+            fileList=fileName
 
             #process data
             data1=read.table(inFile$datapath,sep='\t')
@@ -2032,6 +2034,12 @@ server<-function(input, output,session) {
         if (input$selectMethod=="fisher"){
             validate(need(length(back$data) != 0, "Fisher's exact test method is not applicable when background samples are not specified."))
         }
+        if (input$selectMethod=="cluster"){
+            validate(need(length(input$userSamples) == 0, "K-means clustering method is not applicable for analyzing uploaded data."))
+        }    
+        # if (input$selectMethod=="fisher"){
+        #     validate(need(length(back$data) != 0, "Fisher's exact test method is not applicable when background samples are not specified."))
+        # }
         session$sendCustomMessage("download_notready", list())
         session$sendCustomMessage("result_notready", list())
         session$sendCustomMessage("ok_submit", list())
@@ -2353,9 +2361,9 @@ server<-function(input, output,session) {
             #write.table(mylink, 'www/write_to_disk/testFile.txt', row.names=FALSE,col.names=FALSE,quote=FALSE,sep='\t')
             tagList(
                 HTML('<br><br>'),
-                tags$a(href = mergelink, "Link to merged data"),
+                tags$a(href = mergelink,target="_blank", "Link to merged data"),
                 HTML('<br><br>'),
-                tags$a(href = greatlink, "Link to GREAT tool with merged data as input")
+                tags$a(href = greatlink,target="_blank", "Link to GREAT tool with merged data as input")
             )
         })
         # rm(list=setdiff(ls()))

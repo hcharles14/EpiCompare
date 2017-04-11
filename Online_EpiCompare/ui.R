@@ -116,6 +116,8 @@ ui<-navbarPage(
 
 
         column(10,offset=1,
+            h4('This is the online EpiCompare. A comand-line version of EpiCompare is availabe at',a(href='https://github.com/hcharles14/EpiCompare',target="_blank",'https://github.com/hcharles14/EpiCompare'),'.'),
+            br(),
             radioButtons("selectFeature", "1. Select a feature:",inline = TRUE,width = '50%',c("ChromHMM" ,"H3K27ac", "H3K4me1", "H3K4me3", "H3K27me3" )),
             #HTML(' <br> <label>select features:</label>'),
             conditionalPanel(condition = "input.selectFeature == 'ChromHMM'",
@@ -10500,14 +10502,14 @@ ui<-navbarPage(
                   <figure><img src="f1.png"  height="200" ></figure>
                   <br>
 
-                  <h3> <a name="S2" id="S2">4.2 Upload data </a></h3> Upload your own data for comparison analysis besides using default Roadmap data. Skip this step if you don\'t want to use your own data. You can upload one file or multiple files. The files must have only three columns (chromosome, start, end) specifying the location of the feature. The coordinates can be merged or not. The tool will map the coordinates to 200bp window by requiring at least 1bp overlapping. After uploading files, the name of each file will be listed on top of Roadmap samples for selection. Only frequency cutoff and Fisher\'s exact test can be used to analyze uploaded data while k-means clustering method cannot be used. 
+                  <h3> <a name="S2" id="S2">4.2 Upload data </a></h3> Upload your own data for comparison analysis besides using default Roadmap data. Skip this step if you don\'t want to use your own data. You can upload one file or multiple files. Select one to upload one file and select multiple to upload multiple files together. The files must have only three columns (chromosome, start, end) specifying the location of the feature. The coordinates can be merged or not. The tool will map the coordinates to 200bp window by requiring at least 1bp overlapping. After uploading files, the name of each file will be listed on top of Roadmap samples for selection. The name of the file must not have space. Only frequency cutoff and Fisher\'s exact test can be used to analyze uploaded data while k-means clustering method cannot be used. 
                   <br>
                   <p>1.Here is a <a href="upload_test.txt">test file </a>. Download the file to your local drive.</p>
                   <br>
                   <p>2.Upload this file locally. The file will be uploaded and processed.</p>
                   <figure><img src="upload2.png"  height="200" ></figure>
                   <br>
-                  <p>3.After processing, the name of uploaded file (removing suffix) will be listed as user-defined samples.</p>
+                  <p>3.After processing, the name of uploaded file will be listed as user-defined samples.</p>
                   <figure><img src="upload1.png"  height="200" ></figure>
 
                   <h3> <a name="S3">4.3 Select foreground samples </a></h3> Select the group of samples for which you identify specific regions. They can be chosen from Roadmap samples or uploaded samples. Click finish selection button after finishing selection. Selected sample IDs for foreground samples will be listed.
