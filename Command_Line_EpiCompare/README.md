@@ -4,6 +4,7 @@ README file created by Yu He on March 7, 2017
 
 Please contact yu.he@wustl.edu with questions or for clarifications.
 
+
 ###############  Part 0: Setup ####################
 
 
@@ -26,6 +27,7 @@ Below I will describe the pipeline of command-line EpiCompare tool.
 - Part 2 describes how to identify regions using given method and paramters.
 
 - Part 3 describes how to validate identified regions.
+
 
 
 
@@ -99,6 +101,7 @@ outfile_name='brain_enhancer_cutoff' #provide file name to save identified regio
 
 
 
+
 ###############  Part 2: identify regions ####################
 
 Below is the step of this part:
@@ -114,6 +117,7 @@ d. If user_data is True, process user's data and combine them with roadmap data
 e. identify regions using selected method
 
 f. write final data into specified file name and sort the file
+
 
 
 
