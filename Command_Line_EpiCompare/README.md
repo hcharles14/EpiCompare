@@ -3,6 +3,7 @@
 
 
 ###############  Part 0: Setup ####################
+
 This folder "Command_Line_EpiCompare" contains the code for running command-line EpiCompare in the server. Download the code, which will create Command_Line_EpiCompare folder under EpiCompare folder.
 
 a. After downloading the code in Command_Line_EpiCompare folder, download datasets at the link http://wangftp.wustl.edu/~yhe/EpiCompare_datasets/dataset.tar.gz. Uncompress the compressed .tar.gz file in Command_Line_EpiCompare folder using command "tar -xzvf dataset.tar.gz". This will generate three folders: H3K27ac_peak_sort, Rdata and coordinates. Folder H3K27ac_peak_sort lists H3K27ac peaks for Roadmap samples. Folder Rdata lists binary data for epigenomic features. Folder coordinates list coordinates corresponding to the binary data for epigenomic features.
@@ -18,6 +19,7 @@ Below I will describe the pipeline of command-line EpiCompare tool.
 
 
 ###############  Part 1: specify the input variables and files ####################
+
 EpiCompare requires that input variables and files be set in the file run_epicompare.R. The file currently contains an outline of the pipeline, with inputs currently set to identify brain-specific enhancers using 18-state ChromHMM model. The description of the required inputs is described below: 
 
 a. sample names: specify foreground samples and background samples from given Roadmap samples or user-defined samples. The name of user-defined sample is the name of the given file. User-defined samples should be put in a folder, which is specified by a paramter "userdir". See step d for this paramter.
@@ -58,6 +60,7 @@ outfile_name='brain_enhancer_cutoff' #provide file name to save identified regio
 
 
 ###############  Part 2: identify regions ####################
+
 Below is the step of this part:
 a. get Roadmap data for selected feature
 b. get coordinate file for selected feature
@@ -68,6 +71,7 @@ f. write final data into specified file name and sort the file
 
 
 ###############  Part 3: Validate identified regions ####################
+
 Below is the step of this part:
 a.plot enrichment of H3K27ac peaks for identified regions and save the enrichment values into a file
 b.plot ctm distribution on H3K27ac for identified regions and save the enrichment values into a file
