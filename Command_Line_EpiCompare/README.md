@@ -36,7 +36,7 @@ Below I will describe the pipeline of command-line EpiCompare tool.
 EpiCompare requires that input variables and files be set in the file run_epicompare.R. The file currently contains an outline of the pipeline, with inputs currently set to identify brain-specific enhancers using 18-state ChromHMM model. The description of the required inputs is described below: 
 
 
-a. sample names: specify foreground samples and background samples from given Roadmap samples or user-defined samples. The name of user-defined sample is the name of the given file. User-defined samples should be put in a folder, which is specified by a paramter "userdir". See step d for this paramter.
+a. sample names: specify foreground samples and background samples from given Roadmap samples or user-defined samples. The name of user-defined sample is the name of the given file. User-defined samples should be put in a folder, which is specified by a paramter "userdir". See step e for this paramter.
 
 
 Example (as shown in run_epicompare.R): 
@@ -58,7 +58,17 @@ HMM_model='18_model' #select '15_model' or '18_model' ChromHMM
 chrom_state='enhancer' #select 'enhancer' or 'promoter' state from ChromHMM model
 
 
-c. method: specify the method chosen using 'cutoff', 'fisher' or 'cluster' which represents Frequency cutoff, Fisher's exact test and k-means clustering. Also specify associated paramters.
+c.feature and sample names for datahub: specify features from ('ChromHMM15','ChromHMM18','H3K4me1','H3K4me3','H3K27ac','H3K27me3') and samples from Roadmap samples. These are used to generate datahub for visualization in WashU Epigenome browser. If one of them is empty, the tool will use the selected feature in step b and selected foreground samples in step a excluding user samples.
+
+
+Example (as shown in run_epicompare.R):
+
+feature_datahub=c() #select from features in c('ChromHMM15','ChromHMM18','H3K4me1','H3K4me3','H3K27ac','H3K27me3')
+
+sample_datahub=c() #select from Roadmap samples
+
+
+d. method: specify the method chosen using 'cutoff', 'fisher' or 'cluster' which represents Frequency cutoff, Fisher's exact test and k-means clustering. Also specify associated paramters.
 
 
 Example (as shown in run_epicompare.R):
@@ -86,7 +96,7 @@ clusterQuantile=100 #For a selected cluster, the median of feature densities of 
 clusterCutoff=0.4 #For a selected cluster, the median of feature densities of foreground samples in this cluster are no less than 0.4 (default).
 
 
-d. files: specify users' data folder, output folder to store all processed data, file name for identified regions. All these folders and files should be in Command_Line_EpiCompare folder. User's data file should have only three columns (chromosome, start, end) specifying the location of the feature. The coordinates can be merged or not. The name of each file is taken as the sample name. Only frequency cutoff and Fisher's exact test can be used to analyze users' data while k-means clustering method cannot be used.
+e. files: specify users' data folder, output folder to store all processed data, file name for identified regions. All these folders and files should be in Command_Line_EpiCompare folder. User's data file should have only three columns (chromosome, start, end) specifying the location of the feature. The coordinates can be merged or not. The name of each file is taken as the sample name. Only frequency cutoff and Fisher's exact test can be used to analyze users' data while k-means clustering method cannot be used.
 
 
 An example for users' data:
@@ -121,11 +131,13 @@ b. get coordinate file for selected feature
 
 c. change the current working directory to specified output folder
 
-d. If user_data is True, process user's data and combine them with roadmap data
+d. generate datahub for visualization in WashU Epigenome browser
 
-e. identify regions using selected method
+e. If user_data is True, process user's data and combine them with roadmap data
 
-f. write final data into specified file name and sort the file
+f. identify regions using selected method
+
+g. write final data into specified file name and sort the file
 
 
 
