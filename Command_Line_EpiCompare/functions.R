@@ -186,7 +186,6 @@ cal_enrichment<-function(target_file,foredata,backdata,main_path){
 
     #plot
     data$sam <- factor(data$sam, levels = sam)
-    data$type <- factor(data$type, levels = type)
     png('H3K27ac_peaks_enrichment.png',width=800, height=400)
     p <- ggplot(data=data, aes(x=sam, y=enrichment, fill=type))+
     geom_bar(position = 'dodge', stat='identity')+xlab('Samples')+ylab('Enrichment fold')+
@@ -253,7 +252,7 @@ plot_multiple_lines=function(data,numNo,figure_name){
         }
     }
 
-    mytable <- within(mytable,supp <- factor(supp,levels=supp))
+    mytable <- within(mytable,supp <- factor(supp,levels=unique(supp)))
     pd <- position_dodge(0)
     png(figure_name)
     p <- ggplot(mytable, aes(x=dose, y=len, colour=supp, group=supp)) + 
