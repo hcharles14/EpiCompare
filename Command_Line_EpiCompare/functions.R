@@ -132,8 +132,6 @@ cal_enrichment<-function(target_file,foredata,backdata,main_path){
             if (count>=10){
                 break
             }
-            fore_sam=c(fore_sam,x)
-            fore_type=c(fore_type,'Foreground_samples')
             if (is.element(x, sample_list98)){
                 f_path=paste(main_path,'/H3K27ac_peak_sort/',x,'-H3K27ac.narrowPeak_sort',sep='')
             }else{
@@ -144,12 +142,14 @@ cal_enrichment<-function(target_file,foredata,backdata,main_path){
             system(cmd)
             #check if the intersection file is empty. Otherwise return and stop analysis.
             info = file.info('enrich_intersect.txt')
-            if (info$size==0){
-                return (data.frame())
+            if (info$size>0){
+                enr=cal_bp('enrich_intersect.txt')/targe_bp *(hg19_num_nucleotide/cal_bp(f_path)) #cal enrichment
+                fore_enr=c(fore_enr,enr)
+                fore_sam=c(fore_sam,x)
+                fore_type=c(fore_type,'Foreground_samples')
+                count=count+1
             }
-            enr=cal_bp('enrich_intersect.txt')/targe_bp *(hg19_num_nucleotide/cal_bp(f_path)) #cal enrichment
-            fore_enr=c(fore_enr,enr)
-            count=count+1
+
         }
     }
 
@@ -163,8 +163,6 @@ cal_enrichment<-function(target_file,foredata,backdata,main_path){
             if (count>=10){
                 break
             }
-            back_sam=c(back_sam,x)
-            back_type=c(back_type,'Background_samples')
             if (is.element(x, sample_list98)){
                 f_path=paste(main_path,'/H3K27ac_peak_sort/',x,'-H3K27ac.narrowPeak_sort',sep='')
             }else{
@@ -172,9 +170,15 @@ cal_enrichment<-function(target_file,foredata,backdata,main_path){
             }
             cmd=paste('bedtools','intersect','-a',target_path,'-b',f_path,'-sorted','>enrich_intersect.txt')
             system(cmd)
-            enr=cal_bp('enrich_intersect.txt')/targe_bp *(hg19_num_nucleotide/cal_bp(f_path)) #cal enrichment
-            back_enr=c(back_enr,enr)
-            count=count+1
+            #check if the intersection file is empty. Otherwise return and stop analysis.
+            info = file.info('enrich_intersect.txt')
+            if (info$size>0){
+                enr=cal_bp('enrich_intersect.txt')/targe_bp *(hg19_num_nucleotide/cal_bp(f_path)) #cal enrichment
+                back_enr=c(back_enr,enr)
+                back_sam=c(back_sam,x)
+                back_type=c(back_type,'Background_samples')
+                count=count+1
+            }
         }
     }
 
