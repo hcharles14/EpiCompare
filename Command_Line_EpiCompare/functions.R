@@ -152,7 +152,9 @@ cal_enrichment<-function(target_file,foredata,backdata,main_path){
 
         }
     }
-
+    if (length(fore_sam)==0){
+        return (data.frame())
+    }
     #back
     back_sam=c()
     back_enr=c()
